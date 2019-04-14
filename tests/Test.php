@@ -58,16 +58,42 @@ class Test extends TestCase
     public function testPressure()
     {
         $conv = new Convertor();
-        $conv->from(100,'pa');
+        $conv->from(100, 'pa');
         $val=$conv->toAll(6,true);
         // http://convert-units.info/pressure/hectopascal/1
         $this->assertEquals(100,$val['pa'],"Not inside of float delta",0.00001);
-        $this->assertEquals(1,$val['hpa'],"Not inside of float delta",0.00001);
-        $this->assertEquals(.1,$val['kpa'],"Not inside of float delta",0.00001);
-        $this->assertEquals(0.0001,$val['mpa'],"Not inside of float delta",0.00001);
+        //$this->assertEquals(1,$val['hpa'],"Not inside of float delta",0.00001);
+        //$this->assertEquals(.1,$val['kpa'],"Not inside of float delta",0.00001);
+        //$this->assertEquals(0.0001,$val['mpa'],"Not inside of float delta",0.00001);
         $this->assertEquals(0.001,$val['bar'],"Not inside of float delta",0.00001);
         $this->assertEquals(1,$val['mbar'],"Not inside of float delta",0.00001);
         $this->assertEquals(0.0145038,$val['psi'],"Not inside of float delta",0.00001);
+    }
+
+    public function testPressureSI() {
+        $conv = new Convertor();
+        $conv->from(100, 'Pa');
+        $delta = 0.00001;
+        $si = ['hPa' => 1,
+               'kPa' => 0.1,
+               'mPa' => 100000, // millipascal
+               'MPa' => 0.0001]; // megapascal
+        $val = $conv->toMany(array_keys($si), 6, true);
+        foreach ($si as $unit => $result)
+        {
+            $this->assertEquals($result, $val[$unit], "Not inside of float delta", $delta);
+        }
+
+        // From SI to SI
+        foreach ($si as $sunit => $sresult)
+        {
+            $conv->from($sresult, $sunit);
+            $val = $conv->toMany(array_keys($si), 6, true);
+            foreach ($si as $unit => $result)
+            {
+                $this->assertEquals($result, $val[$unit], "Not inside of float delta", $delta);
+            }
+        }
     }
 
     /** @test */
@@ -134,21 +160,45 @@ class Test extends TestCase
     }
 
     /** @test */
-    public function testTime(){
+    public function testTime() {
         $conv = new Convertor();
-        $conv->from(100,'hr');
-        $val=$conv->toAll(6,true);
-        $delta=1e-4;
-        $this->assertEquals(100*60*60,$val['s'],"Not inside of float delta",$delta);
-        $this->assertEquals(100*60,$val['min'],"Not inside of float delta",$delta);
-        $this->assertEquals(100,$val['hr'],"Not inside of float delta",$delta);
-        $this->assertEquals(100/24,$val['day'],"Not inside of float delta",$delta);
-        $this->assertEquals(100/24/7,$val['week'],"Not inside of float delta",$delta);
-        $this->assertEquals(100/24/7/31,$val['month'],"Not inside of float delta",$delta);
-        $this->assertEquals(100/24/365,$val['year'],"Not inside of float delta",$delta);
-        $this->assertEquals(100*60*60*1000,$val['ms'],"Not inside of float delta",$delta);
-        $this->assertEquals(3600*1e+11,$val['ns'],"Not inside of float delta",$delta);
+        $conv->from(100, 'hr');
+        $val = $conv->toAll(6, true);
+        $delta = 1e-4;
+        $this->assertEquals(100 * 60 * 60, $val['s'], "Not inside of float delta", $delta);
+        $this->assertEquals(100 * 60, $val['min'], "Not inside of float delta", $delta);
+        $this->assertEquals(100, $val['hr'], "Not inside of float delta", $delta);
+        $this->assertEquals(100/24, $val['day'], "Not inside of float delta", $delta);
+        $this->assertEquals(100/24/7, $val['week'], "Not inside of float delta", $delta);
+        $this->assertEquals(100/24/7/31, $val['month'], "Not inside of float delta", $delta);
+        $this->assertEquals(100/24/365, $val['year'], "Not inside of float delta", $delta);
     }
+
+    public function testTimeSI() {
+        $conv = new Convertor();
+        $conv->from(100, 'hr');
+        $delta = 1e-4;
+        $si = ['ns' => 100 * 3600 * 1000 * 1000 * 1000,
+               'μs' => 100 * 3600 * 1000 * 1000,
+               'ms' => 100 * 3600 * 1000];
+        $val = $conv->toMany(array_keys($si), 6, true);
+        foreach ($si as $unit => $result)
+        {
+            $this->assertEquals($result, $val[$unit], "Not inside of float delta", $delta);
+        }
+
+        // From SI to SI
+        foreach ($si as $sunit => $sresult)
+        {
+            $conv->from($sresult, $sunit);
+            $val = $conv->toMany(array_keys($si), 6, true);
+            foreach ($si as $unit => $result)
+            {
+                $this->assertEquals($result, $val[$unit], "Not inside of float delta", $delta);
+            }
+        }
+    }
+
     /** @test */
     public function testUnitDoesNotExist()
     {
