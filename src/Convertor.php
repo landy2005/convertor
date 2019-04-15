@@ -367,62 +367,58 @@ class Convertor
         // Use lowercase units
         $unitLo = strtolower($unit);
         //check that unit exists
-        if (array_key_exists($unit, $this->units))
-        {
-            $array = $this->units[$unit];
-            $array['unit'] = $unit;
-            return $array;
+        foreach (array_keys($this->units) as $unitKey) {
+            if ($unit === $unitKey || $unitLo === $unitKey || $unitLo === strtolower($unitKey)) {
+                $array = $this->units[$unitKey];
+                $array['unit'] = $unitKey;
+                return $array;
+            }
         }
-        else if (array_key_exists($unitLo, $this->units)) {
-            $array = $this->units[$unitLo];
-            $array['unit'] = $unitLo;
-            return $array;
-        } else {
-            // Compare with all SI prefixes, and check if allowed SI prefixes
-            foreach ($this->siPrefixes as $prefix => $entry) {
-                // Compare case sensitive from prefix symbol, ie km
-                $symbol = $entry['symbol'];
-                $len = strlen($symbol);
-                $siPrefix = substr($unit, 0, $len); // cut base prefix
-                $siUnit = substr($unit, $len); // cut base unit
-                if ($siUnit && $siPrefix === $symbol) {
-                    // or lowercase base unit
-                    if (!array_key_exists($siUnit, $this->units)) {
-                         $siUnit = strtolower($siUnit);
-                    }
 
-                    if (array_key_exists($siUnit, $this->units) &&
-                        isset($this->units[$siUnit]["prefixes"]) && $this->units[$siUnit]["prefixes"])
-                    {
-                        $array = $this->units[$siUnit];
-                        $array['unit']   = $siUnit;
-                        $array['prefix'] = $prefix;
-                        $array['symbol'] = $entry['symbol'];
-                        $array['power']  = $entry['power'];
-                        return $array;
-                    }
+        // Compare with all SI prefixes, and check if allowed SI prefixes
+        foreach ($this->siPrefixes as $prefix => $entry) {
+            // Compare case sensitive from prefix symbol, ie km
+            $symbol = $entry['symbol'];
+            $len = strlen($symbol);
+            $siPrefix = substr($unit, 0, $len); // cut base prefix
+            $siUnit = substr($unit, $len); // cut base unit
+            if ($siUnit && $siPrefix === $symbol) {
+                // or lowercase base unit
+                if (!array_key_exists($siUnit, $this->units)) {
+                     $siUnit = strtolower($siUnit);
                 }
 
-                // Compare case insensitive from full prefix name, ie Kilom
-                $len = strlen($prefix);
-                $siPrefix = substr($unit, 0, $len); // cut base prefix
-                $siUnit = strtolower(substr($unit, $len)); // cut base unit
-                if ($siUnit && strtolower($siPrefix) === $prefix) {
-                    // or lowercase base unit
-                    if (!array_key_exists($siUnit, $this->units)) {
-                        $siUnit = strtolower($siUnit);
-                    }
+                if (array_key_exists($siUnit, $this->units) &&
+                    isset($this->units[$siUnit]["prefixes"]) && $this->units[$siUnit]["prefixes"])
+                {
+                    $array = $this->units[$siUnit];
+                    $array['unit']   = $siUnit;
+                    $array['prefix'] = $prefix;
+                    $array['symbol'] = $entry['symbol'];
+                    $array['power']  = $entry['power'];
+                    return $array;
+                }
+            }
 
-                    if (array_key_exists($siUnit, $this->units) &&
-                        isset($this->units[$siUnit]["prefixes"]) && $this->units[$siUnit]["prefixes"])
-                    {
-                        $array = $this->units[$siUnit];
-                        $array['unit']   = $siUnit;
-                        $array['prefix'] = $prefix;
-                        $array['symbol'] = $entry['symbol'];
-                        $array['power']  = $entry['power'];
-                        return $array;
-                    }
+            // Compare case insensitive from full prefix name, ie Kilom
+            $len = strlen($prefix);
+            $siPrefix = substr($unit, 0, $len); // cut base prefix
+            $siUnit = strtolower(substr($unit, $len)); // cut base unit
+            if ($siUnit && strtolower($siPrefix) === $prefix) {
+                // or lowercase base unit
+                if (!array_key_exists($siUnit, $this->units)) {
+                    $siUnit = strtolower($siUnit);
+                }
+
+                if (array_key_exists($siUnit, $this->units) &&
+                    isset($this->units[$siUnit]["prefixes"]) && $this->units[$siUnit]["prefixes"])
+                {
+                    $array = $this->units[$siUnit];
+                    $array['unit']   = $siUnit;
+                    $array['prefix'] = $prefix;
+                    $array['symbol'] = $entry['symbol'];
+                    $array['power']  = $entry['power'];
+                    return $array;
                 }
             }
         }
