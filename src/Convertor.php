@@ -366,12 +366,21 @@ class Convertor
     {
         // Use lowercase units
         $unitLo = strtolower($unit);
+        $array = array();
         //check that unit exists
         foreach (array_keys($this->units) as $unitKey) {
-            if ($unit === $unitKey || $unitLo === $unitKey || $unitLo === strtolower($unitKey)) {
+            if ($unit === $unitKey || $unitLo === $unitKey) {
+                // Units exactly match by key
                 $array = $this->units[$unitKey];
                 $array['unit'] = $unitKey;
                 return $array;
+            } elseif ($unitLo === strtolower($unitKey)) {
+                // Allow to search unit by camelCase name, ie Pa,
+                // but can be intersects with si prefixed, ie Nm (newton meter) and nm (nano meter)
+                // SI prefixes always camelCase, store this unit temporary and use if SI prefix not founded
+                $array = $this->units[$unitKey];
+                $array['unit'] = $unitKey;
+                break;
             }
         }
 
@@ -423,8 +432,12 @@ class Convertor
             }
         }
 
-        //throw new ConvertorInvalidUnitException("Unit u=$unit Does Not Exist");
-        return NULL;
+        if ($array) {
+            // This array stored previously by lowercase compare
+            return $array;
+        } else {
+            return NULL;
+        }
     }
 
     /**
