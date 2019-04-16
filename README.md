@@ -27,7 +27,7 @@ Convertor can handle a wide range of unit types including:
 	<li>Energy/Power</li>
 </ul>
 
-If you need aditional unit types, then it is easy to add your own.
+If you need additional unit types, then it is easy to add your own.
 
 Setup
 ================================
@@ -72,8 +72,8 @@ $c=new Convertor(100,"mps",'/path/to/my/own/Units.php');
 $c=new Convertor(100,"mps",'BaseUnits.php');
 //define own units inline
 $arr = [
-    "m" => array("base" => "m", "conversion" => 1),
-    "km" => array("base" => "m", "conversion" => 1000),
+    "m" => array("base" => "m", "conversion" => 1, "prefixes" = true),
+    "ft" => array("base" => "m", "conversion" => 0.3048),
 ];
 
 $c = new Convertor(1, 'm', $arr);
@@ -89,6 +89,30 @@ Differences in notation:
 
 Additionally the `Units.php` file contains area-density definitions.
 
+SI prefixes
+================================
+
+We support SI prefixes for units. Instead write each unit itself, add _"prefixes" = true_ parameter in unit definition. SI prefixes is case sensitive.
+I.e., this definition:
+```php
+"m" => array("base" => "m", "conversion" => 1, "prefixes" = true),
+```
+adds all possible SI variants of unit: **nm (nanometer), km (kilometer), Mm (megameter)**, etc.
+
+List of all possible prefixes:
+
+| Name  | Symbol | Factor          |   | Name  | Symbol | Factor           |
+|-------|--------|-----------------|---|-------|--------|------------------|
+| deca  | da     | 10<sup>1</sup>  |   | deci  | d      | 10<sup>-1</sup>  |
+| hecto | h      | 10<sup>2</sup>  |   | centi | c      | 10<sup>-2</sup>  |
+| kilo  | k      | 10<sup>3</sup>  |   | milli | m      | 10<sup>-3</sup>  |
+| mega  | M      | 10<sup>6</sup>  |   | micro | µ      | 10<sup>-6</sup>  |
+| giga  | G      | 10<sup>9</sup>  |   | nano  | n      | 10<sup>-9</sup>  |
+| tera  | T      | 10<sup>12</sup> |   | pico  | p      | 10<sup>-12</sup> |
+| peta  | P      | 10<sup>15</sup> |   | femto | f      | 10<sup>-15</sup> |
+| exa   | E      | 10<sup>18</sup> |   | atto  | a      | 10<sup>-18</sup> |
+| zetta | Z      | 10<sup>21</sup> |   | zepto | z      | 10<sup>-21</sup> |
+| yotta | Y      | 10<sup>24</sup> |   | yocto | y      | 10<sup>-24</sup> |
 
 Resources
 ================================
