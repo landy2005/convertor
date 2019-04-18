@@ -19,6 +19,7 @@ Convertor can handle a wide range of unit types including:
 	<li>Area</li>
 	<li>Volume</li>
 	<li>Weight</li>
+	<li>Force</li>
 	<li>Speed</li>
 	<li>Rotation</li>
 	<li>Temperature</li>
@@ -65,11 +66,11 @@ Define your own Units
 Convertor now supports using different files that contain the unit conversions by specifying either the path to the file containing the unit array or the filename of the file in `src/config`directly:
 ```php
 //using the default file in `src/Config/Units.php`:
-$c=new Convertor(100,"mps");
+$c=new Convertor(100, "m/s");
 //using another file somewhere in the project:
-$c=new Convertor(100,"mps",'/path/to/my/own/Units.php');
+$c=new Convertor(100, "m/s", '/path/to/my/own/Units.php');
 //using the name of the file in conf:
-$c=new Convertor(100,"mps",'BaseUnits.php');
+$c=new Convertor(100, "mps", 'BaseUnits.php');
 //define own units inline
 $arr = [
     "m" => array("base" => "m", "conversion" => 1, "prefixes" = true),
@@ -79,13 +80,14 @@ $arr = [
 $c = new Convertor(1, 'm', $arr);
 ```
 
-Currently two Unit files are available - one containing the owner's notation and the other one a more formal notation.
+Currently three Unit files are available - one containing the owner's notation, second one a more formal notation and by default used si notation where base units is SI units and allowed si prefixes.
 Differences in notation:
 
-| Variant | km²     | kg/m²      | FileName        |
-|---------|---------|------------|-----------------|
-| owner   | 'km2'   | -          | `BaseUnits.php` |
-| formal  | 'km**2' | 'kg m**-2' | `Units.php`     |
+| Variant | km²     | kg/m²      | SI Prefixes | FileName        |
+|---------|---------|------------|-------------|-----------------|
+| owner   | 'km2'   | -          | partial     | `BaseUnits.php` |
+| formal  | 'km**2' | 'kg m**-2' | partial     | `OldUnits.php`  |
+| si      | 'km^2'  | 'kg/m^2'   | fully       | `Units.php`     |
 
 Additionally the `Units.php` file contains area-density definitions.
 
