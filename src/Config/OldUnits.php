@@ -6,11 +6,11 @@
  */
 return array(
     ///////Units Of Length///////
-    "m"  => array("base" => "m", "conversion" => 1), //meter - base unit for distance
+    "m" => array("base" => "m", "conversion" => 1), //meter - base unit for distance
     "km" => array("base" => "m", "conversion" => 1000), //kilometer
     "dm" => array("base" => "m", "conversion" => 0.1), //decimeter
     "cm" => array("base" => "m", "conversion" => 0.01), //centimeter
-    "mm" => array("base" => "m", "conversion" => 0.001), //millimeter
+    "mm" => array("base" => "m", "conversion" => 0.001), //milimeter
     "µm" => array("base" => "m", "conversion" => 0.000001), //micrometer
     "nm" => array("base" => "m", "conversion" => 0.000000001), //nanometer
     "pm" => array("base" => "m", "conversion" => 0.000000000001), //picometer
@@ -18,7 +18,7 @@ return array(
     "ft" => array("base" => "m", "conversion" => 0.3048), //foot
     "yd" => array("base" => "m", "conversion" => 0.9144), //yard
     "mi" => array("base" => "m", "conversion" => 1609.344), //mile
-    "h"  => array("base" => "m", "conversion" => 0.1016), //hand
+    "h" => array("base" => "m", "conversion" => 0.1016), //hand
     "ly" => array("base" => "m", "conversion" => 9460730472580800), //lightyear
     "au" => array("base" => "m", "conversion" => 149597870700), //astronomical unit
     "pc" => array("base" => "m", "conversion" =>  3.08567782E16), //parsec
@@ -28,7 +28,7 @@ return array(
     "m**2" => array("base" => "m**2", "conversion" => 1), //meter square - base unit for area
     "km**2" => array("base" => "m**2", "conversion" => 1000000), //kilometer square
     "cm**2" => array("base" => "m**2", "conversion" => 0.0001), //centimeter square
-    "mm**2" => array("base" => "m**2", "conversion" => 0.000001), //millimeter square
+    "mm**2" => array("base" => "m**2", "conversion" => 0.000001), //milimeter square
     "ft**2" => array("base" => "m**2", "conversion" => 0.092903), //foot square
     "mi**2" => array("base" => "m**2", "conversion" => 2589988.11), //mile square
     "ac" => array("base" => "m**2", "conversion" => 4046.86), //acre
@@ -37,8 +37,8 @@ return array(
     ///////Units Of Volume///////
     "dm3" => array("base" => "l", "conversion" => 1), //cubic decimeter - litre
     "l" => array("base" => "l", "conversion" => 1), //litre - base unit for volume
-    "ml" => array("base" => "l", "conversion" => 0.001), //millilitre
-    "cm3" => array("base" => "l", "conversion" => 0.001), //cubic centimeter - millilitre
+    "ml" => array("base" => "l", "conversion" => 0.001), //mililitre
+    "cm3" => array("base" => "l", "conversion" => 0.001), //cubic centimeter - mililitre
     "hl" => array("base" => "l", "conversion" => 100), //hectolitre
     "kl" => array("base" => "l", "conversion" => 1000), //kilolitre
     "m3" => array("base" => "l", "conversion" => 1000), //meters cubed - kilolitre
@@ -51,7 +51,7 @@ return array(
     ///////Units Of Weight///////
     "kg" => array("base" => "kg", "conversion" => 1), //kilogram - base unit for weight
     "g" => array("base" => "kg", "conversion" => 0.001), //gram
-    "mg" => array("base" => "kg", "conversion" => 0.000001), //milligram
+    "mg" => array("base" => "kg", "conversion" => 0.000001), //miligram
     "N" => array("base" => "kg", "conversion" => 1 / 9.80665002863885), //Newton (based on earth gravity)
     "st" => array("base" => "kg", "conversion" => 6.35029), //stone
     "lb" => array("base" => "kg", "conversion" => 0.453592), //pound
@@ -70,27 +70,34 @@ return array(
     "rad" => array("base" => "deg", "conversion" => 57.2958), //radian
 
     ///////Units Of Temperature///////
-    "k" => array("base" => "k", "conversion" => 1), //kelvin - base unit for temperature
-    "c" => array("base" => "k", "conversion" => function ($val, $tofrom) { return $tofrom ? $val - 273.15 : $val + 273.15; }), //celsius
-    "f" => array("base" => "k", "conversion" => function ($val, $tofrom) { return $tofrom ? ($val * 9 / 5 - 459.67) : (($val + 459.67) * 5 / 9); }), //Fahrenheit
+    "k" => array("base" => "k", "conversion" => 1), //kelvin - base unit for distance
+    "c" => array("base" => "k", "conversion" => function ($val, $tofrom) {
+        return $tofrom ? $val - 273.15 : $val + 273.15;
+    }), //celsius
+    "f" => array("base" => "k", "conversion" => function ($val, $tofrom) {
+        return $tofrom ? ($val * 9 / 5 - 459.67) : (($val + 459.67) * 5 / 9);
+    }), //Fahrenheit
 
     ///////Units Of Pressure///////
-    "pa"    => array("base" => "pa", "conversion" => 1, "prefixes" => true), //Pascal - base unit for Pressure, allowed Si prefixes
-    //"hpa"   => array("base" => "pa", "conversion" => 100), //hpa
-    //"kpa"   => array("base" => "pa", "conversion" => 1000), //kilopascal
-    //"mpa"   => array("base" => "pa", "conversion" => 1000000), //megapascal
-    "bar"   => array("base" => "pa", "conversion" => 100000), //bar
-    "mbar"  => array("base" => "pa", "conversion" => 100), //millibar
-    "psi"   => array("base" => "pa", "conversion" => 6894.76), //pound-force per square inch
+    "pa" => array("base" => "pa", "conversion" => 1), //Pascal - base unit for Pressure
+    "hpa" => array("base" => "pa", "conversion" => 100), //hpa
+    "kpa" => array("base" => "pa", "conversion" => 1000), //kilopascal
+    "mpa" => array("base" => "pa", "conversion" => 1000000), //megapascal
+    "bar" => array("base" => "pa", "conversion" => 100000), //bar
+    "mbar" => array("base" => "pa", "conversion" => 100), //milibar
+    "psi" => array("base" => "pa", "conversion" => 6894.76), //pound-force per square inch
 
     ///////Units Of Time///////
-    "s"     => array("base" => "s", "conversion" => 1, "prefixes" => true), //second - base unit for time, allowed Si prefixes
-    "year"  => array("base" => "s", "conversion" => 31536000), //year - standard year 365 days
+    "s" => array("base" => "s", "conversion" => 1), //second - base unit for time
+    "year" => array("base" => "s", "conversion" => 31536000), //year - standard year
     "month" => array("base" => "s", "conversion" => 18748800), //month - 31 days
-    "week"  => array("base" => "s", "conversion" => 604800), //week
-    "day"   => array("base" => "s", "conversion" => 86400), //day
-    "hr"    => array("base" => "s", "conversion" => 3600), //hour
-    "min"   => array("base" => "s", "conversion" => 60), //minute
+    "week" => array("base" => "s", "conversion" => 604800), //week
+    "day" => array("base" => "s", "conversion" => 86400), //day
+    "hr" => array("base" => "s", "conversion" => 3600), //hour
+    "min" => array("base" => "s", "conversion" => 60), //minute
+    "ms" => array("base" => "s", "conversion" => 0.001), //milisecond
+    "μs" => array("base" => "s", "conversion" => 0.000001), //microsecond
+    "ns" => array("base" => "s", "conversion" => 0.000000001), //nanosecond
 
     ///////Units Of Power///////
     "j" => array("base" => "j", "conversion" => 1), //joule - base unit for energy
@@ -112,7 +119,7 @@ return array(
     "kg mm**-2" => array("base" => "kg m**-2", "conversion" => 1e6),
     //vary weight
     "g m**-2" => array("base" => "kg m**-2", "conversion" => 0.001), //gram
-    "mg m**-2" => array("base" => "kg m**-2", "conversion" => 0.000001), //milligram
+    "mg m**-2" => array("base" => "kg m**-2", "conversion" => 0.000001), //miligram
     "st m**-2" => array("base" => "kg m**-2", "conversion" => 6.35029), //stone
     "lb m**-2" => array("base" => "kg m**-2", "conversion" => 0.453592), //pound
     "oz m**-2" => array("base" => "kg m**-2", "conversion" => 0.0283495), //ounce
